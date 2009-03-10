@@ -38,14 +38,13 @@ module DataMapper
 
         def deserialize(data)
           params = Hash.new
-          data.split(",").each do |data|
-            self.serialized_properties.each do |property_name, filter_class|
-              filter = filter_class.new
-              filter.name = property_name
-              value  = filter.deserialize(data)
-              value.nil? ? raise(TypeError) : value
-              params[property_name] = value
-            end
+          data.split(",").each_with_index do |data, index|
+            property_name, filter_class = self.serialized_properties[index]
+            filter = filter_class.new
+            filter.name = property_name
+            value  = filter.deserialize(data)
+            #value.nil? ? raise(TypeError) : value
+            params[property_name] = value
           end
           return self.new(params)
         end
@@ -57,6 +56,7 @@ module DataMapper
           self.class.serialized_properties.map do |property_name, filter_class|
             filter = filter_class.new
             filter.record = self
+            filter.name = property_name
             data   = self.send(property_name)
             value  = filter.serialize(data)
             value.nil? ? raise(TypeError) : value

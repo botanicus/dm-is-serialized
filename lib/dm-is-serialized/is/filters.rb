@@ -31,13 +31,20 @@ module DataMapper
         class ModelSerializeFilter < SerializeFilter
           # serialize(:product)
           def serialize(record)
-            record.id unless record.nil?
+            #raise unless record.nil?
+            keys = model.key.map { |property| property.name }
+            values = keys.map { |key| record.send(key) }
+            values.length.eql?(1) ? values.first : values.join("|")
           end
 
           # product_id => id
           def deserialize(id)
-            model = Object.const_get(@name.to_s.camel_case)
-            model.get!(id)
+            ids = id.split("|")
+            model.get(*ids)
+          end
+
+          def model
+            Object.const_get(@name.to_s.camel_case)
           end
         end
 
