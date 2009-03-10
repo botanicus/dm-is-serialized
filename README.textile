@@ -1,0 +1,29 @@
+h1. About
+
+This plugin helps you to serialize your records into very short strings for storing in cookies.
+
+h1. Initialization
+
+<pre>
+class Product
+  include DataMapper::Resource
+  property :id,   Serial
+  property :name, String
+end
+
+class OrderItem
+  include DataMapper::Resource
+  is :serialized
+  has 1, :product
+  property :id,    Serial
+  property :name,  String
+  property :count, Integer, :default => 1
+  property :used,  Boolean, :default => false
+  property :note,  Text
+  serialize_properties :count, :note # GeneralSerializeFilter is default value
+  serialize_property :product, ModelSerializeFilter
+  serialize_property :used, BooleanSerializeFilter
+end
+</pre>
+
+h1. Filters

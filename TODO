@@ -1,0 +1,8 @@
+- the best will be hook properties and has methods:
+
+class OrderItem
+  include DataMapper::Resource
+  is :serialized
+  has 1, :product, :serialized => true
+  property :count, Integer, :serialized => true
+end
