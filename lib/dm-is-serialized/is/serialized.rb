@@ -15,6 +15,7 @@ module DataMapper
       end
 
       module ClassMethods
+        include DataMapper::Is::Serialized::Filters
         attr_accessor :serialized_properties
 
         # serialize_property :size, BooleanSerializedFilter
