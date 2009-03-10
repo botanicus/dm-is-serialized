@@ -31,7 +31,7 @@ module DataMapper
           self.serialized_properties ||= Array.new
           filter = properties.last.class.eql?(Class) ? properties.pop : GeneralSerializeFilter
           properties.each do |property|
-            self.serialized_properties.push(property, filter)
+            self.serialized_properties.push([property, filter])
           end
           self.serialized_properties.uniq!
         end
