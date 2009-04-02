@@ -31,8 +31,8 @@ module DataMapper
         class ModelSerializeFilter < SerializeFilter
           # serialize(:product)
           def serialize(record)
-            #raise unless record.nil?
             keys = model.key.map { |property| property.name }
+            raise "Record can't be nil (#{model} with keys #{keys})" if record.nil?
             values = keys.map { |key| record.send(key) }
             values.length.eql?(1) ? values.first : values.join("|")
           end

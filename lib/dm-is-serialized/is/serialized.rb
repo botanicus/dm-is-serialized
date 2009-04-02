@@ -12,6 +12,7 @@ module DataMapper
         # Add instance-methods
         include DataMapper::Is::Serialized::InstanceMethods
         include DataMapper::Is::Serialized::Filters
+        self.serialized_properties = Array.new # otherwise it will be nil and it will cause NoMethodError
       end
 
       module ClassMethods
@@ -58,8 +59,7 @@ module DataMapper
             filter.record = self
             filter.name = property_name
             data   = self.send(property_name)
-            value  = filter.serialize(data)
-            value.nil? ? raise(TypeError) : value
+            data.nil? ? String.new : filter.serialize(data)
           end.join(",")
         end
       end
