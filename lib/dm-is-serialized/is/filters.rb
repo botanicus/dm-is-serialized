@@ -56,7 +56,8 @@ module DataMapper
           end
 
           def deserialize(data)
-            return data
+            # "" => nil
+            data.empty? ? nil : data
           end
         end
       end
