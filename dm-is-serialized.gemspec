@@ -4,7 +4,7 @@ rescue SecurityError
   # http://gems.github.com
 end
 
-VERSION  = "0.0.2"
+VERSION  = "0.9.10"
 SPECIFICATION = ::Gem::Specification.new do |s|
   s.name = "dm-is-serialized"
   s.version = VERSION
